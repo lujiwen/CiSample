@@ -1,4 +1,30 @@
 language: java
 jdk: openjdk11
-before_script: java -version
-script: ./gradlew build
+#script: ./gradlew build jacocoTestReport
+#after_success: bash <(curl -s https://codecov.io/bash)
+
+env:
+  - CODECOV_TOKEN=084c500e-549b-405f-ae75-e221690f811d
+  - GRADLE_USER_HOME=~/.gradle/
+cache:
+  directories:
+    - $GRADLE_USER_HOME/caches/
+    - $GRADLE_USER_HOME/wrapper/
+#
+#jobs:
+#  include:
+#    - stage: test
+#      ./gradlew build jacocoTestReport
+#      after_success: bash <(curl -s https://codecov.io/bash)
+#    - stage: deploy
+#      ./gradlew buildDockerImage
+##      script: echo 'build docker docker image'
+##    - stage: build-docker-image
+##        script: ./gradlew buildDockerImage
+#
+
+stages:
+  - test
+  - name: deploy
+    if: branch = master
+
